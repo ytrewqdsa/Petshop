@@ -26,6 +26,11 @@ public class PetService {
         return pets;
     }
 
+    public String putPet(int id, String name, long price, String currency){
+        pets.put(id, new Pet(id, name, price, currency));
+        return pets.get(id).getName() + "has been successfully added";
+    }
+
     @PostConstruct
     private void init(){
         pets.put(1, new Pet(1,"cat",15000, "Rubles"));

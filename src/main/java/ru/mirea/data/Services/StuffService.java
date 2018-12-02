@@ -26,6 +26,11 @@ public class StuffService {
         return stuffs;
     }
 
+    public String putStuff(int id, String name, long price, String currency){
+        stuffs.put(id, new Stuff(id, name, price, currency));
+        return stuffs.get(id).getName() + "has been successfully added";
+    }
+
     @PostConstruct
     private void init(){
         stuffs.put(20, new Stuff(20,"shovel", 1500,"Rubles"));
