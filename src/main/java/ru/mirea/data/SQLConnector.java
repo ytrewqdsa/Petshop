@@ -1,8 +1,5 @@
 package ru.mirea.data;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
@@ -10,18 +7,18 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+//@Component
 public class SQLConnector {
-
-   /* @Autowired
-    Connector connector;*/
+//Тут был Дима:3
+  //  Connector connector;
 
     String driverName = "org.sqlite.JDBC";
     Connection connection = null;
-    String petDB = "jdbc:sqlite://Users/Dmitry/Desktop/Petshop.db";
+    String petDB = "jdbc:sqlite://Users/alex/Petshop.db";
     volatile int id_cart = 0;
     volatile int id_pet = 0;
 
+/*
     @PostConstruct
     public void connect(){
         try {
@@ -38,6 +35,7 @@ public class SQLConnector {
             System.err.println(e.getMessage());
         }
         init();
+//        connector.give(connection);
     }
 
     public void init(){
@@ -49,6 +47,7 @@ public class SQLConnector {
 //  create Methods
 
     public void CreateTableOfItems(){
+//        Connection connection = connector.get();
         String sql = "CREATE TABLE IF NOT EXISTS item (\n"
                 + "	id integer PRIMARY KEY,\n"
                 + "type varchar(10) NOT NULL,\n"
@@ -63,9 +62,11 @@ public class SQLConnector {
         catch (SQLException e){
             System.err.println(e.getMessage());
         }
+ //       connector.give(connection);
     }
 
     public void CreateTableOfBalance(){
+//        Connection connection = connector.get();
         String sql = "CREATE TABLE IF NOT EXISTS balance (\n"
                 + "	id int PRIMARY KEY,\n"
                 + "	bal INTEGER,\n"
@@ -78,9 +79,11 @@ public class SQLConnector {
         catch (SQLException e){
             System.err.println(e.getMessage());
         }
+//        connector.give(connection);
     }
 
     public void CreateTableOfCart(){
+//        Connection connection = connector.get();
         String sql = "CREATE TABLE IF NOT EXISTS cart (\n"
                 + "	id int PRIMARY KEY,\n"
                 + "	id_item int NOT NULL,\n"
@@ -94,17 +97,20 @@ public class SQLConnector {
         catch (SQLException e){
             System.err.println(e.getMessage());
         }
+//        connector.give(connection);
     }
+*/
 
 //  get methods
-
+/*
     public List<ObjectNode> getPets(){
         String sql = "SELECT * FROM item WHERE item.type = ?;";
+//        Connection connection = connector.get();
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setString(1, "pet");
             ResultSet resultSet = preparedStatement.executeQuery();
+//            connector.give(connection);
             return CreateJSONForItem(resultSet);
-
         }catch (SQLException e){
             System.err.println(e.getMessage());
             return null;
@@ -113,8 +119,10 @@ public class SQLConnector {
 
     public List<ObjectNode> getItems(){
         String sql = "SELECT * FROM item;";
+//        Connection connection = connector.get();
         try (Statement statement = connection.createStatement()){
             ResultSet resultSet = statement.executeQuery(sql);
+//            connector.give(connection);
             return CreateJSONForItem(resultSet);
         }catch (SQLException e){
             System.err.println(e.getMessage());
@@ -123,10 +131,12 @@ public class SQLConnector {
     }
 
     public List<ObjectNode> getStuffs(){
+//        Connection connection = connector.get();
         String sql = "SELECT * FROM item WHERE item.type = ?;";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setString(1, "stuff");
             ResultSet resultSet = preparedStatement.executeQuery();
+//            connector.give(connection);
             return CreateJSONForItem(resultSet);
         }catch (SQLException e){
             System.err.println(e.getMessage());
@@ -135,11 +145,13 @@ public class SQLConnector {
     }
 
     public List<ObjectNode> getPet(int id){
+//        Connection connection = connector.get();
         String sql = "SELECT * FROM item WHERE type = ? AND id = ?;";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setString(1, "pet");
             preparedStatement.setInt(2, id);
             ResultSet resultSet = preparedStatement.executeQuery();
+//            connector.give(connection);
             return CreateJSONForItem(resultSet);
         }catch (SQLException e){
             System.err.println(e.getMessage());
@@ -148,24 +160,29 @@ public class SQLConnector {
     }
 
     public List<ObjectNode> getStuff(int id){
+//        Connection connection = connector.get();
         String sql = "SELECT * FROM item WHERE type = ? AND id = ?;";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setString(1, "stuff");
             preparedStatement.setInt(2, id);
             ResultSet resultSet = preparedStatement.executeQuery();
+//            connector.give(connection);
             return CreateJSONForItem(resultSet);
         }catch (SQLException e){
             System.err.println(e.getMessage());
             return null;
         }
-    }
+    }*/
+/*
 
     public List<ObjectNode> getFullCart(int id_person){
+//        Connection connection = connector.get();
         String sql = "SELECT i.name, i.price, ca.quantity FROM item i " +
                 "INNER JOIN cart ca ON i.id = ca.id_item AND ca.id_person = ?;";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setInt(1, id_person);
             ResultSet resultSet = preparedStatement.executeQuery();
+//            connector.give(connection);
             return CreateJSONForFullCart(resultSet);
         }catch (SQLException e){
             System.err.println(e.getMessage());
@@ -174,10 +191,12 @@ public class SQLConnector {
     }
 
     public List<ObjectNode> getCart(int id){
+//        Connection connection = connector.get();
         String sql = "SELECT * FROM cart WHERE id = ?;";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
+//            connector.give(connection);
             return CreateJSONForCart(resultSet);
         }catch (SQLException e){
             System.err.println(e.getMessage());
@@ -186,20 +205,25 @@ public class SQLConnector {
     }
 
     public List<ObjectNode> getBalanceToCon(int id){
+//        Connection connection = connector.get();
         String sql = "SELECT * FROM balance WHERE id = ?;";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
+//            connector.give(connection);
             return CreateJSONForBalance(resultSet);
         }catch (SQLException e){
             System.err.println(e.getMessage());
             return null;
         }
     }
+*/
 
+/*
 //  put Methods
 
     public String putPet(int id, String name, long price, String currency){
+//        Connection connection = connector.get();
         String sql = "INSERT INTO item VALUES(?, ?, ?, ?, ?);";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setInt(1, id);
@@ -211,10 +235,12 @@ public class SQLConnector {
         }catch (SQLException e){
             System.err.println(e.getMessage());
         }
+//        connector.give(connection);
         return name + " has been successfully added";
     }
 
     public String putStuff(int id, String name, long price, String currency){
+//        Connection connection = connector.get();
         String sql = "INSERT INTO item VALUES(?, ?, ?, ?, ?);";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setInt(1, id);
@@ -226,10 +252,12 @@ public class SQLConnector {
         }catch (SQLException e){
             System.err.println(e.getMessage());
         }
+//        connector.give(connection);
         return name + " has been successfully added";
     }
 
     public String addPet(int id_pet, int id_person, int quantity){
+//        Connection connection = connector.get();
         String sql = "INSERT INTO cart VALUES (?, ?, ?, ?);";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setInt(1, id_cart++);
@@ -240,10 +268,12 @@ public class SQLConnector {
         }catch (SQLException e){
             System.err.println(e.getMessage());
         }
+ //       connector.give(connection);
         return "Pet has been successfully added to cart";
     }
 
     public String addStuff(int id_stuff, int id_person, int quantity){
+//        Connection connection = connector.get();
         String sql = "INSERT INTO cart VALUES (?, ?, ?, ?);";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setInt(1, id_cart++);
@@ -254,12 +284,16 @@ public class SQLConnector {
         }catch (SQLException e){
             System.err.println(e.getMessage());
         }
+//        connector.give(connection);
         return "Stuff has been successfully added to cart";
     }
+*/
 
 // update Method
+/*
 
     public int updateBalanc(int id, long balance, int id_cur){
+//        Connection connection = connector.get();
         String sql = "UPDATE balance SET bal = ? WHERE id = ? AND id_cur = ?;";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
@@ -267,6 +301,7 @@ public class SQLConnector {
             preparedStatement.setInt(2, id);
             preparedStatement.setInt(3, id_cur);
             preparedStatement.executeUpdate();
+//            connector.give(connection);
             return 1;
         }catch (SQLException e){
             System.err.println(e.getMessage());
@@ -275,22 +310,27 @@ public class SQLConnector {
     }
 
     public String updateBalance(int id, long balance, int id_cur){
+//        Connection connection = connector.get();
         String sql = "INSERT INTO balance VALUES(?, ?, ?);";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setLong(2, balance);
             preparedStatement.setInt(1, id);
             preparedStatement.setInt(3, id_cur);
             preparedStatement.executeUpdate();
+//            connector.give(connection);
             return "Balance has ";
         }catch (SQLException e){
             System.err.println(e.getMessage());
             return null;
         }
     }
+*/
 
 //  pay Method
+/*
 
     public String payCart(int id_person){
+//        Connection connection = connector.get();
         long result = 0;
         String s = null;
         String sql = "SELECT bal.bal - SUM(i.price * ca.quantity) FROM cart ca " +
@@ -311,12 +351,16 @@ public class SQLConnector {
         }catch (SQLException e){
             System.err.println(e.getMessage());
         }
+//        connector.give(connection);
         return s;
     }
+*/
 
 //  delete Methods
+/*
 
     public String deleteCart(int id_person){
+///        Connection connection = connector.get();
         String sql = "DELETE FROM cart WHERE id_person = ?;";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setInt(1, id_person);
@@ -326,9 +370,10 @@ public class SQLConnector {
         }
         return "Item has been successfully removed";
     }
+*/
 
 // createJSON Methods
-
+/*
     public List<ObjectNode> CreateJSONForItem(ResultSet resultSet){
         ObjectMapper mapper = new ObjectMapper();
  //       ArrayNode itemsArray = mapper.createArrayNode();
@@ -349,11 +394,12 @@ public class SQLConnector {
             System.err.println(e.getMessage());
         }
 
- /*       ObjectNode objectNode = mapper.createObjectNode();
-        objectNode.putPOJO("item", itemsArray);*/
+ *//*       ObjectNode objectNode = mapper.createObjectNode();
+        objectNode.putPOJO("item", itemsArray);*//*
         return items;
 //        return objectNode;
-    }
+    }*/
+/*
 
     public List<ObjectNode> CreateJSONForBalance(ResultSet resultSet){
         ObjectMapper mapper = new ObjectMapper();
@@ -373,9 +419,11 @@ public class SQLConnector {
             System.err.println(e.getMessage());
         }
         return items;
+*/
 /*        ObjectNode objectNode = mapper.createObjectNode();
         objectNode.putPOJO("balance", itemsArray);
-        return objectNode;*/
+        return objectNode;*//*
+
     }
 
     public List<ObjectNode> CreateJSONForCart(ResultSet resultSet){
@@ -420,9 +468,12 @@ public class SQLConnector {
             System.err.println(e.getMessage());
         }
         return items;
+*/
 /*        ObjectNode objectNode = mapper.createObjectNode();
         objectNode.putPOJO("fullcart", itemsArray);
-        return objectNode;*/
+        return objectNode;*//*
+
     }
+*/
 
 }
